@@ -4,14 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.MainActivity">
+    tools:context=".Activities.ScannerActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/TilIpAddress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,29 +36,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TilIpAddress" />
 
-    <ScrollView
-        android:id="@+id/svScanner"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/flScanResults"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btScan">
+        app:layout_constraintTop_toBottomOf="@id/btScan">
 
-        <LinearLayout
-            android:id="@+id/scrollView2"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvScanResult"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
-            <EditText
-                android:id="@+id/portScanResults"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/no_scan_results_yet"
-                android:inputType="textPersonName" />
-        </LinearLayout>
-    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

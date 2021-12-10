@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AuditSec">
         <activity
-            android:name=".activities.ScannerActivity"
+            android:name=".Activities.ScannerActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".Activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

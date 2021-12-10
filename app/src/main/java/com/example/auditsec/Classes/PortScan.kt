@@ -1,4 +1,4 @@
-package com.example.auditsec.activities
+package com.example.auditsec.Classes
 
 import android.widget.EditText
 import java.net.Socket
