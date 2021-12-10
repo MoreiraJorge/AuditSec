@@ -26,7 +26,7 @@ class ScannerActivity : AppCompatActivity() {
 
         val executor = Executors.newFixedThreadPool(numThreads)
 
-        val commonlyUsedPorts = intArrayOf(22, 80, 443, 3306, 21, 25, 53, 8080, 8988, 9999)
+        val commonlyUsedPorts = intArrayOf(22, 80, 443, 3306, 21, 25, 53,1720, 8080, 8988, 9999)
         for (port in commonlyUsedPorts) {
             val worker = PortScan(portScanResults, host, port)
             executor.execute(worker)

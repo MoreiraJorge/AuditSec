@@ -7,4 +7,5 @@
     <string name="feature">Feature</string>
     <string name="scanner_button">Scanner</string>
     <string name="no_scan_results_yet">No Scan results yet</string>
+    <string name="test_Text_view">Scan result</string>
 </resources>
