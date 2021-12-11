@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.ScannerActivity">
+    tools:context=".activities.ScannerActivity">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/TilIpAddress"
@@ -30,7 +30,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_weight="1"
-        android:onClick="scanPorts"
         android:text="@string/Scan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

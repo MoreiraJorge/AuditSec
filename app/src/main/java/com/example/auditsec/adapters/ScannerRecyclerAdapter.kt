@@ -1,16 +1,18 @@
-package com.example.auditsec.Adapters
+package com.example.auditsec.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.auditsec.Classes.ScannerItem
+import com.example.auditsec.classes.ScannerItem
 import com.example.auditsec.R
+import java.util.ArrayList
 
-class ScannerRecyclerAdapter(private val mList: List<ScannerItem>)
+class ScannerRecyclerAdapter()
     : RecyclerView.Adapter<ScannerRecyclerAdapter.ViewHolder>()
 {
+    private val mList = ArrayList<ScannerItem>(10)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.rv_scanner_item, parent, false)
@@ -19,15 +21,19 @@ class ScannerRecyclerAdapter(private val mList: List<ScannerItem>)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mList[position]
-        holder.textView.setText(item.portStatus)
+        holder.textView.text = "${item.portNumber} is ${item.portStatus}"
     }
 
     override fun getItemCount(): Int {
         return mList.size
     }
 
-    // Holds the views for adding it to image and text
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val textView: TextView = ItemView.findViewById(R.id.tvPortScanDetails)
+        val textView: TextView = ItemView.findViewById(R.id.tvPortScanDetails);
+    }
+
+    fun addItem(item: ScannerItem) {
+        mList.add(item)
+        notifyItemInserted(itemCount - 1)
     }
 }

@@ -1,4 +1,4 @@
-package com.example.auditsec.Activities
+package com.example.auditsec.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
