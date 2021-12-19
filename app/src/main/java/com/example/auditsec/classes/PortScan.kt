@@ -3,18 +3,19 @@ package com.example.auditsec.classes
 import com.example.auditsec.adapters.ScannerRecyclerAdapter
 import java.net.Socket
 
-class PortScan(private val ScannerAdapter: ScannerRecyclerAdapter, private val host: String, private val portNumber: Int) : Thread() {
-
-    override fun run() {
-        try {
-            val sock = Socket(host, portNumber)
-            if (sock.isConnected) {
-                ScannerAdapter.addItem(ScannerItem("Opened", portNumber))
-            } else {
-                ScannerAdapter.addItem(ScannerItem("Closed", portNumber))
+class PortScan(){
+    companion object{
+        fun scan(ScannerAdapter: ScannerRecyclerAdapter, host: String, portNumber: Int): ScannerItem {
+            try {
+                val sock = Socket(host, portNumber)
+                if (sock.isConnected) {
+                    return ScannerItem("Opened", portNumber)
+                } else {
+                    return ScannerItem("Closed", portNumber)
+                }
+            } catch (e: Exception) {
+                return ScannerItem("N/A", portNumber)
             }
-        } catch (e: Exception) {
-            ScannerAdapter.addItem(ScannerItem("N/A", portNumber))
         }
     }
 }

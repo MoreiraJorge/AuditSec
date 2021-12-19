@@ -10,13 +10,12 @@ import com.example.auditsec.adapters.ScannerRecyclerAdapter
 import com.example.auditsec.R
 import com.example.auditsec.classes.PortScan
 import com.example.auditsec.classes.PortUtils
+import com.example.auditsec.classes.ScannerItem
 import com.google.android.material.textfield.TextInputEditText
 import java.util.concurrent.Executors
 
 class ScannerActivity : AppCompatActivity() {
-
-    private val numThreads: Int = 16
-    private lateinit var scanButton: Button
+    private lateinit var scanButton: Button;
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ScannerRecyclerAdapter
 
@@ -27,6 +26,7 @@ class ScannerActivity : AppCompatActivity() {
 
         adapter = ScannerRecyclerAdapter()
         recyclerView = findViewById<RecyclerView>(R.id.rvScanResult)
+        scanButton = findViewById(R.id.btScan)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
@@ -40,13 +40,13 @@ class ScannerActivity : AppCompatActivity() {
 
             val ports = PortUtils.retrievePorts(tiPortsText)
 
-            val executor = Executors.newFixedThreadPool(numThreads)
             val commonlyUsedPorts = intArrayOf(22, 80, 443, 3306, 21, 25, 53,1720, 8080, 8988, 9999)
+            var list = ArrayList<ScannerItem>()
             for (port in ports) {
-                val worker = PortScan(adapter ,host, port)
-                executor.execute(worker)
+                list.add(PortScan.scan(adapter ,host, port))
             }
-            executor.shutdown()
+            adapter.setList(list)
+            adapter.notifyDataSetChanged()
         }
     }
 }
