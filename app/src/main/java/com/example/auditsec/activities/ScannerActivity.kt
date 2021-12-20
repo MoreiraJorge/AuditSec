@@ -43,7 +43,6 @@ class ScannerActivity : AppCompatActivity() {
 
             val commonlyUsedPorts: ArrayList<Int> = arrayListOf(22, 80, 443, 3306, 21, 25, 53,1720, 8080, 8988, 9999)
             scan(ports, adapter)
-            //adapter.notifyDataSetChanged()
         }
     }
 
