@@ -2,7 +2,8 @@
     <string name="app_name">AuditSec</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="ip_address_hint">IP Address</string>
+    <string name="ip_address_hint">Enter the dns or ip address</string>
+    <string name="port_hint">Ports (ex: 80, 443, 500-1000)</string>
     <string name="Scan">Scan</string>
     <string name="feature">Feature</string>
     <string name="scanner_button">Scanner</string>
