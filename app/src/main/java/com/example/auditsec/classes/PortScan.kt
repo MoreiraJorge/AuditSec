@@ -1,18 +1,19 @@
 package com.example.auditsec.classes
 
-import android.R.attr
 import android.annotation.SuppressLint
 import com.example.auditsec.adapters.ScannerRecyclerAdapter
-import java.net.Socket
-import android.R.attr.port
-import java.net.InetSocketAddress
+import java.net.*
+import com.example.auditsec.activities.ScannerActivity
 
 
 class PortScan(private val _host: String,
                private val adapter: ScannerRecyclerAdapter,
-               private val portsList: ArrayList<Int>): Thread()
+               private val portsList: ArrayList<Int>,
+               private val _activity: ScannerActivity
+): Thread()
 {
     private val host: String = _host;
+    private val activity: ScannerActivity = _activity;
 
     @SuppressLint("NotifyDataSetChanged")
     override fun run() {
@@ -22,22 +23,25 @@ class PortScan(private val _host: String,
                 return
             }
             val port = portsList.removeFirst()
-            adapter.addItem(scanPort(port))
+            val myvar = scanPort(port);
+            activity.runOnUiThread {
+                adapter.addItem(myvar)
+            }
         }
     }
 
     private fun scanPort(portNumber: Int): ScannerItem {
         return try {
             val sock = Socket()
-            sock.connect(InetSocketAddress(host, port), 1000)
+            sock.connect(InetSocketAddress(host, portNumber), 3000)
             if (sock.isConnected) {
                 sock.close()
                 ScannerItem("Opened", portNumber)
             } else {
-                sock.close()
                 ScannerItem("Closed", portNumber)
             }
         } catch (e: Exception) {
+            println(e.message)
             ScannerItem("N/A", portNumber)
         }
     }

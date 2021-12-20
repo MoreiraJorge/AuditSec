@@ -34,6 +34,7 @@ class ScannerRecyclerAdapter()
 
     fun addItem(item: ScannerItem) {
         mList.add(item)
+        notifyItemInserted(mList.size-1)
     }
 
     fun setList(newList: ArrayList<ScannerItem>){
