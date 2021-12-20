@@ -1,5 +1,6 @@
 package com.example.auditsec.activities
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -10,7 +11,6 @@ import com.example.auditsec.adapters.ScannerRecyclerAdapter
 import com.example.auditsec.R
 import com.example.auditsec.classes.PortScan
 import com.example.auditsec.classes.PortUtils
-import com.example.auditsec.classes.ScannerItem
 import com.google.android.material.textfield.TextInputEditText
 import java.util.concurrent.Executors
 
@@ -18,6 +18,7 @@ class ScannerActivity : AppCompatActivity() {
     private lateinit var scanButton: Button;
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ScannerRecyclerAdapter
+    private val host: String = "grab.com"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,13 +41,17 @@ class ScannerActivity : AppCompatActivity() {
 
             val ports = PortUtils.retrievePorts(tiPortsText)
 
-            val commonlyUsedPorts = intArrayOf(22, 80, 443, 3306, 21, 25, 53,1720, 8080, 8988, 9999)
-            var list = ArrayList<ScannerItem>()
-            for (port in ports) {
-                list.add(PortScan.scan(adapter ,host, port))
-            }
-            adapter.setList(list)
-            adapter.notifyDataSetChanged()
+            val commonlyUsedPorts: ArrayList<Int> = arrayListOf(22, 80, 443, 3306, 21, 25, 53,1720, 8080, 8988, 9999)
+            scan(ports, adapter)
+            //adapter.notifyDataSetChanged()
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun scan(commonlyUsedPorts: ArrayList<Int>, adapter: ScannerRecyclerAdapter) {
+        val executor = Executors.newFixedThreadPool(1)
+        val worker = PortScan(host, adapter, commonlyUsedPorts, this@ScannerActivity)
+        executor.execute(worker)
+        println("Scanned main thread")
     }
 }

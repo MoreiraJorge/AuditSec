@@ -1,7 +1,7 @@
 package com.example.auditsec.classes
 
 object PortUtils {
-    fun retrievePorts(portsString: String): List<Int> {
+    fun retrievePorts(portsString: String): ArrayList<Int> {
         val portsList = portsString.split(',')
         var ports: Set<Int> = mutableSetOf()
 
@@ -18,6 +18,6 @@ object PortUtils {
             }
         }
 
-        return ports.toList()
+        return ports.toCollection(ArrayList())
     }
 }
