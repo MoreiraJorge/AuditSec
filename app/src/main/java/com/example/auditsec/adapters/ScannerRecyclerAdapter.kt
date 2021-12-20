@@ -12,7 +12,7 @@ import java.util.ArrayList
 class ScannerRecyclerAdapter()
     : RecyclerView.Adapter<ScannerRecyclerAdapter.ViewHolder>()
 {
-    private var mList = ArrayList<ScannerItem>(10)
+    private var mList = ArrayList<ScannerItem>(30)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.rv_scanner_item, parent, false)
