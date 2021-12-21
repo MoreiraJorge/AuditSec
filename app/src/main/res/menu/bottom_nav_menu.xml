@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/port_scan"
+        android:title="Port Scan"
+        android:icon="@drawable/radar"/>
+    <item
+        android:id="@+id/traceroute"
+        android:title="Traceroute"
+        android:icon="@drawable/radar"/>
+</menu>

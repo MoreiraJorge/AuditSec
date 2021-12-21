@@ -1,32 +1,37 @@
 package com.example.auditsec.classes
 
-import android.annotation.SuppressLint
+import androidx.fragment.app.FragmentActivity
 import com.example.auditsec.adapters.ScannerRecyclerAdapter
 import java.net.*
-import com.example.auditsec.activities.ScannerActivity
 
 
 class PortScan(private val _host: String,
                private val adapter: ScannerRecyclerAdapter,
                private val portsList: ArrayList<Int>,
-               private val _activity: ScannerActivity
+               private val _activity: FragmentActivity?,
 ): Thread()
 {
     private val host: String = _host;
-    private val activity: ScannerActivity = _activity;
+    private val activity: FragmentActivity? = _activity;
 
-    @SuppressLint("NotifyDataSetChanged")
     override fun run() {
         while (true) {
-            println("Scanning...")
+            sleep((0..300).random().toLong())
             if (portsList.size == 0) {
                 return
             }
-            val port = portsList.removeFirst()
-            val myvar = scanPort(port);
-            activity.runOnUiThread {
-                adapter.addItem(myvar)
+            val port = getNextPort()
+            println("Thread # " + Thread.currentThread().id + " is doing port " + port);
+            val portStatus = scanPort(port);
+            activity?.runOnUiThread {
+                adapter.addItem(portStatus)
             }
+        }
+    }
+
+    private fun getNextPort(): Int {
+        synchronized(portsList) {
+            return portsList.removeFirst()
         }
     }
 
@@ -42,7 +47,7 @@ class PortScan(private val _host: String,
             }
         } catch (e: Exception) {
             println(e.message)
-            ScannerItem("N/A", portNumber)
+            ScannerItem("Timed Out", portNumber)
         }
     }
 }

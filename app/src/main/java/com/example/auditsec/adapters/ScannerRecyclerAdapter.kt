@@ -7,7 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.auditsec.classes.ScannerItem
 import com.example.auditsec.R
-import java.util.ArrayList
+import java.util.*
+import kotlin.Comparator
 
 class ScannerRecyclerAdapter()
     : RecyclerView.Adapter<ScannerRecyclerAdapter.ViewHolder>()
@@ -34,10 +35,7 @@ class ScannerRecyclerAdapter()
 
     fun addItem(item: ScannerItem) {
         mList.add(item)
+        mList.sortWith(Comparator { lhs, rhs -> lhs.portNumber.compareTo(rhs.portNumber) })
         notifyItemInserted(mList.size-1)
-    }
-
-    fun setList(newList: ArrayList<ScannerItem>){
-        mList = newList
     }
 }
