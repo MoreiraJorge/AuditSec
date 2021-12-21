@@ -1,0 +1,7 @@
+Executable : /home/jorge/Android/Sdk/cmake/3.10.2.4988404/bin/ninja
+arguments : 
+-C
+/home/jorge/gitRepos/AuditSec/app/.cxx/Debug/53292m6i/armeabi-v7a
+auditsec
+jvmArgs : 
+
