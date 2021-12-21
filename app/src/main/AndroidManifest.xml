@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AuditSec">
         <activity
+            android:name=".activities.TraceRouteActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.ScannerActivity"
             android:exported="true" />
         <activity
