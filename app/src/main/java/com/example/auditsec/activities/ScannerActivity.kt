@@ -31,9 +31,9 @@ class ScannerActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-        scanButton = findViewById<Button>(R.id.btScan)
-        val tiIpAddress: EditText = findViewById<EditText>(R.id.tiIpAddress)
-        val tiPorts: TextInputEditText = findViewById<TextInputEditText>(R.id.tiPorts)
+        scanButton = findViewById(R.id.btScan)
+        val tiIpAddress: EditText = findViewById(R.id.tiIpAddress)
+        val tiPorts: TextInputEditText = findViewById(R.id.tiPorts)
 
         scanButton.setOnClickListener {
             val host = tiIpAddress.text.toString()

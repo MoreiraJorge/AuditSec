@@ -14,7 +14,7 @@
         android:layout_marginTop="356dp"
         android:layout_marginEnd="177dp"
         android:layout_marginBottom="356dp"
-        android:text="@string/trace_route"
+        android:text="TRACE ROUTE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
