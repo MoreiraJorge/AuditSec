@@ -10,7 +10,7 @@ import com.example.auditsec.R
 import com.example.auditsec.fragments.PortScan
 import com.example.auditsec.fragments.TraceRoute
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
+//https://www.youtube.com/watch?v=NJ_cbuSzAVw
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
