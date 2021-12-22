@@ -1,22 +1,41 @@
 package com.example.auditsec.activities
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
+import androidx.fragment.app.Fragment
 import com.example.auditsec.R
+import com.example.auditsec.fragments.PortScan
+import com.example.auditsec.fragments.TraceRoute
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val portScan = PortScan()
+        val traceRoute = TraceRoute()
+
+        setCurrentFragment(portScan)
+
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+
+        bottomNavigationView
+            .setOnItemSelectedListener {
+                when (it.itemId) {
+                    R.id.port_scan -> setCurrentFragment(portScan)
+                    R.id.traceroute -> setCurrentFragment(traceRoute)
+                }
+                true
+            }
     }
 
-    fun scannerActivity(view: View) {
-        val intent = Intent(this, ScannerActivity::class.java)
-        startActivity(intent)
-    }
+    private fun setCurrentFragment(fragment: Fragment) =
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.flFragment, fragment)
+            commit()
+        }
 
     override fun onStart() {
         super.onStart()
