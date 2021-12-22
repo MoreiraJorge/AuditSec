@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.auditsec.R
@@ -76,6 +77,8 @@ class PortScan : Fragment() {
         scanButton = view.findViewById(R.id.btScan)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
+
+        recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL));
 
         scanButton = view.findViewById<Button>(R.id.btScan)
         val tiIpAddress: EditText = view.findViewById<EditText>(R.id.tiIpAddress)
