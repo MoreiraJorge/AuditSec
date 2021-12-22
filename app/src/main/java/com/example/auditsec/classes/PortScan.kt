@@ -16,22 +16,28 @@ class PortScan(private val _host: String,
 
     override fun run() {
         while (true) {
-            sleep((0..300).random().toLong())
+            //sleep((0..300).random().toLong())
             if (portsList.size == 0) {
                 return
             }
             val port = getNextPort()
             println("Thread # " + Thread.currentThread().id + " is doing port " + port);
             val portStatus = scanPort(port);
-            activity?.runOnUiThread {
-                adapter.addItem(portStatus)
-            }
+            addPortToList(portStatus)
         }
     }
 
     private fun getNextPort(): Int {
         synchronized(portsList) {
             return portsList.removeFirst()
+        }
+    }
+
+    private fun addPortToList(portStatus: ScannerItem) {
+        synchronized(adapter) {
+            activity?.runOnUiThread {
+                adapter.addItem(portStatus)
+            }
         }
     }
 
@@ -47,7 +53,7 @@ class PortScan(private val _host: String,
             }
         } catch (e: Exception) {
             println(e.message)
-            ScannerItem("Timed Out", portNumber)
+            ScannerItem("Filtered", portNumber)
         }
     }
 }
