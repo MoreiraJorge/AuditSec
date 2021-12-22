@@ -1,5 +1,6 @@
 package com.example.auditsec.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
@@ -12,6 +13,7 @@ import com.example.auditsec.R
 import com.example.auditsec.adapters.ScannerRecyclerAdapter
 import com.example.auditsec.classes.PortScan
 import com.example.auditsec.classes.PortUtils
+import com.example.auditsec.utils.Sort
 import com.google.android.material.textfield.TextInputEditText
 import java.util.concurrent.Executors
 
@@ -19,12 +21,18 @@ class PortScan : Fragment() {
     private lateinit var scanButton: Button;
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ScannerRecyclerAdapter
-    private val host: String = "grab.com"
-    private val NUM_THREADS = 2
 
-    //private var portList: ArrayList<ScannerItem>
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private val NUM_THREADS = 10
+    private lateinit var host: String
+    private val commonlyUsedPorts: ArrayList<Int> =
+        arrayListOf(22, 80, 443, 3306, 21, 25, 53, 1720, 8080, 8988, 9999)
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_port_scan, container, false)
     }
@@ -51,6 +59,12 @@ class PortScan : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+
+        if (id == R.id.action_sort) {
+            sortDialog()
+        }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -68,13 +82,12 @@ class PortScan : Fragment() {
         val tiPorts: TextInputEditText = view.findViewById<TextInputEditText>(R.id.tiPorts)
 
         scanButton.setOnClickListener {
-            val host = tiIpAddress.text.toString()
+            host = tiIpAddress.text.toString()
             val tiPortsText = tiPorts.text.toString()
 
-            if(tiPortsText.trim().isNotEmpty()) {
+            if (tiPortsText.trim().isNotEmpty()) {
                 val ports = PortUtils.retrievePorts(tiPortsText)
 
-                val commonlyUsedPorts: ArrayList<Int> = arrayListOf(22, 80, 443, 3306, 21, 25, 53,1720, 8080, 8988, 9999)
                 scan(ports, adapter)
             }
         }
@@ -86,5 +99,21 @@ class PortScan : Fragment() {
         for (i in 1..NUM_THREADS) {
             executor.execute(worker)
         }
+    }
+
+    private fun sortDialog() {
+        val options = arrayOf("Ascending", "Descending")
+
+        val dialog = AlertDialog.Builder(this.context)
+        dialog.setTitle("Sort")
+            .setItems(options) { dialogInterface, i ->
+                if (i == 0) {
+                    dialogInterface.dismiss()
+                    adapter.sortList(Sort.ASC)
+                } else if (i == 1) {
+                    dialogInterface.dismiss()
+                    adapter.sortList(Sort.DESC)
+                }
+            }.show()
     }
 }

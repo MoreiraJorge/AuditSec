@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.auditsec.classes.ScannerItem
 import com.example.auditsec.R
 import com.example.auditsec.classes.FilterPort
-import java.util.*
+import com.example.auditsec.utils.Sort
 import kotlin.Comparator
 import kotlin.collections.ArrayList
 
@@ -18,7 +18,6 @@ class ScannerRecyclerAdapter()
     : RecyclerView.Adapter<ScannerRecyclerAdapter.ViewHolder>(), Filterable
 {
     var mList = ArrayList<ScannerItem>(30)
-    private var filterList: ArrayList<ScannerItem> = ArrayList<ScannerItem>(30)
     private var filter: FilterPort? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -41,7 +40,6 @@ class ScannerRecyclerAdapter()
 
     fun addItem(item: ScannerItem) {
         mList.add(item)
-        mList.sortWith(Comparator { lhs, rhs -> lhs.portNumber.compareTo(rhs.portNumber) })
         notifyItemInserted(mList.size-1)
     }
 
@@ -51,5 +49,15 @@ class ScannerRecyclerAdapter()
         }
 
         return filter as FilterPort
+    }
+
+    fun sortList(sortDirection: Sort, updateList: Boolean = true) {
+        if(sortDirection == Sort.ASC) {
+            mList.sortWith(Comparator { lhs, rhs -> lhs.portNumber.compareTo(rhs.portNumber) })
+        } else if(sortDirection == Sort.DESC) {
+            mList.sortWith(Comparator { lhs, rhs -> rhs.portNumber.compareTo(lhs.portNumber) })
+        }
+
+        if(updateList != null && updateList) notifyDataSetChanged()
     }
 }
