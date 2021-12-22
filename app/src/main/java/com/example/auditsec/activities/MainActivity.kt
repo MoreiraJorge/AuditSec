@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun traceRouteActivity(view: View) {
-        val intent = Intent(this, TraceRouteActivity::class.java)
+        val intent = Intent(this, TraceActivity::class.java)
         startActivity(intent)
     }
 
