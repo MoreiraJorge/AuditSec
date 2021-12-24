@@ -99,7 +99,7 @@ class TracerouteWithPing(private val context: TraceActivity) {
          */
         protected override fun doInBackground(vararg params: Void?): String? {
             if (hasConnectivity()) {
-                try {
+                //try {
                     val res = launchPing(urlToPing)
                     val trace: TracerouteContainer
                     val ip = parseIpFromPing(res)
@@ -136,9 +136,10 @@ class TracerouteWithPing(private val context: TraceActivity) {
                         context.refreshList(trace)
                     }
                     return res
-                } catch (e: Exception) {
+                /*} catch (e: Exception) {
+                    println("CAIU AQUI CARALHO")
                     context.runOnUiThread { onException(e) }
-                }
+                }*/
             } else {
                 return "No connection"
             }
@@ -158,7 +159,7 @@ class TracerouteWithPing(private val context: TraceActivity) {
             // Build ping command with parameters
             val p: Process
             var command = ""
-            val format = "ping -c 1 -t %d "
+            val format = "ping grab.com -t 1 -c 1"
             command = String.format(format, ttl)
             Log.d(TraceActivity.tag, "Will launch : $command$url")
             val startTime = System.nanoTime()
@@ -166,13 +167,16 @@ class TracerouteWithPing(private val context: TraceActivity) {
             // timeout task
             TimeOutAsyncTask(this, ttl).execute()
             // Launch command
-            p = Runtime.getRuntime().exec(command + url)
+            p = Runtime.getRuntime().exec(command)
             val stdInput = BufferedReader(InputStreamReader(p.inputStream))
 
             // Construct the response from ping
             var s: String
             var res = ""
-            while (stdInput.readLine().also { s = it } != null) {
+            while (stdInput.readLine() != null) {
+                s = stdInput.readLine()
+                println(stdInput.readLine())
+                println("VARIABLE S -> " + s)
                 res += """
                     $s
                     
@@ -187,6 +191,7 @@ class TracerouteWithPing(private val context: TraceActivity) {
 
             // Store the wanted ip adress to compare with ping result
             if (ttl == 1) {
+                println("RES -> " + res)
                 ipToPing = parseIpToPingFromPing(res)
             }
             return res
@@ -302,6 +307,7 @@ class TracerouteWithPing(private val context: TraceActivity) {
     private fun parseIpToPingFromPing(ping: String): String {
         var ip = ""
         if (ping.contains(PING)) {
+            println("PIING VALUE " + ping)
             // Get ip when ping succeeded
             val indexOpen = ping.indexOf(PARENTHESE_OPEN_PING)
             val indexClose = ping.indexOf(PARENTHESE_CLOSE_PING)

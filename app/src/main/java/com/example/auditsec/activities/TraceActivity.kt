@@ -47,6 +47,8 @@ class TraceActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        traceListAdapter = TraceListAdapter(applicationContext)
+        listViewTraceroute!!.adapter = traceListAdapter
         buttonLaunch!!.setOnClickListener {
             if (editTextPing!!.text.isEmpty()) {
                 Toast.makeText(this@TraceActivity, "No text", Toast.LENGTH_SHORT)
@@ -59,8 +61,6 @@ class TraceActivity : AppCompatActivity() {
                 tracerouteWithPing?.executeTraceroute(editTextPing!!.text.toString(), maxTtl)
             }
         }
-        traceListAdapter = TraceListAdapter(applicationContext)
-        listViewTraceroute!!.adapter = traceListAdapter
     }
 
     /**
