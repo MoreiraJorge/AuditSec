@@ -136,10 +136,9 @@ class TracerouteWithPing(private val context: TraceActivity) {
                         context.refreshList(trace)
                     }
                     return res
-                /*} catch (e: Exception) {
-                    println("CAIU AQUI CARALHO")
-                    context.runOnUiThread { onException(e) }
-                }*/
+               // } catch (e: Exception) {
+                 //   context.runOnUiThread { onException(e) }
+               // }
             } else {
                 return "No connection"
             }
@@ -156,32 +155,58 @@ class TracerouteWithPing(private val context: TraceActivity) {
         @SuppressLint("NewApi")
         @Throws(Exception::class)
         private fun launchPing(url: String?): String {
+            //TODO: O CODIGO QUE USEI PARA TESTAR FOI ESTE!
+            /*
+            val rt = Runtime.getRuntime()
+            val commands = arrayOf("ping", "google.pt")
+            val proc = rt.exec(commands)
+
+            val stdInput1 = BufferedReader(InputStreamReader(proc.inputStream))
+
+            val stdError = BufferedReader(InputStreamReader(proc.errorStream))
+
+            // Read the output from the command
+            println("Here is the standard output of the command:\n")
+            var s: String? = null
+            while (stdInput1.readLine().also { s = it } != null) {
+                println("OUTPUT====> $s")
+            }
+
+            // Read any errors from the attempted command
+            println("Here is the standard error of the command (if any):\n")
+            while (stdError.readLine().also { s = it } != null) {
+                println("OUTPUT====> $s")
+            }
+
+            return ""
+
+             */
+
             // Build ping command with parameters
             val p: Process
-            var command = ""
-            val format = "ping grab.com -t 1 -c 1"
-            command = String.format(format, ttl)
-            Log.d(TraceActivity.tag, "Will launch : $command$url")
+            //var command = ""
+            val format = "ping google.pt -t 1 -c 1"
+            //command = String.format(format, ttl)
+            val commands = arrayOf("ping", "-c", "1", "-t", "1", "google.pt")
+            Log.d(TraceActivity.tag, "Will launch : $commands$url")
             val startTime = System.nanoTime()
             elapsedTime = 0f
             // timeout task
             TimeOutAsyncTask(this, ttl).execute()
             // Launch command
-            p = Runtime.getRuntime().exec(command)
+            p = Runtime.getRuntime().exec(commands)
             val stdInput = BufferedReader(InputStreamReader(p.inputStream))
 
             // Construct the response from ping
-            var s: String
+            var s: String? = null
             var res = ""
-            while (stdInput.readLine() != null) {
-                s = stdInput.readLine()
-                println(stdInput.readLine())
-                println("VARIABLE S -> " + s)
+            while (stdInput.readLine().also { s = it } != null) {
+                println("OUTPUT====> $s")
                 res += """
                     $s
                     
                     """.trimIndent()
-                if (s.contains(FROM_PING) || s.contains(SMALL_FROM_PING)) {
+                if (s!!.contains(FROM_PING) || s!!.contains(SMALL_FROM_PING)) {
                     // We store the elapsedTime when the line from ping comes
                     elapsedTime = (System.nanoTime() - startTime) / 1000000.0f
                 }
@@ -202,7 +227,7 @@ class TracerouteWithPing(private val context: TraceActivity) {
          */
         override fun onPostExecute(result: String) {
             if (!cancelled) {
-                try {
+                //try {
                     if ("" != result) {
                         if ("No connection" == result) {
                             Toast.makeText(
@@ -225,13 +250,14 @@ class TracerouteWithPing(private val context: TraceActivity) {
                                     ExecutePingAsyncTask(maxTtl).execute()
                                 }
                             }
-                            //							context.refreshList(traces);
+                            //TODO: /!\ JORGE É SUPOSTO ISTO ESTAR COMENTADO? DEPOIS VÊ PFF PODE FALTAR ATUALIZAR A LISTA
+                            //context.refreshList(traces);
                         }
                     }
                     finishedTasks++
-                } catch (e: Exception) {
-                    context.runOnUiThread { onException(e) }
-                }
+                //} catch (e: Exception) {
+                    //context.runOnUiThread { onException(e) }
+                //}
             }
             super.onPostExecute(result)
         }
