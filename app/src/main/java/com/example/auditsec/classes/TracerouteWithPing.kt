@@ -187,7 +187,7 @@ class TracerouteWithPing(private val context: TraceActivity) {
             //var command = ""
             val format = "ping google.pt -t 1 -c 1"
             //command = String.format(format, ttl)
-            val commands = arrayOf("ping", "-c", "1", "-t", "1", "grab.com")
+            val commands = arrayOf("ping", "-c", "1", "-t", "1", "facebook.com")
             Log.d(TraceActivity.tag, "Will launch : $commands$url")
             val startTime = System.nanoTime()
             elapsedTime = 0f
@@ -227,7 +227,7 @@ class TracerouteWithPing(private val context: TraceActivity) {
          */
         override fun onPostExecute(result: String) {
             if (!cancelled) {
-                //try {
+                try {
                     if ("" != result) {
                         if ("No connection" == result) {
                             Toast.makeText(
@@ -255,9 +255,9 @@ class TracerouteWithPing(private val context: TraceActivity) {
                         }
                     }
                     finishedTasks++
-                //} catch (e: Exception) {
-                    //context.runOnUiThread { onException(e) }
-                //}
+                } catch (e: Exception) {
+                    context.runOnUiThread { onException(e) }
+                }
             }
             super.onPostExecute(result)
         }
