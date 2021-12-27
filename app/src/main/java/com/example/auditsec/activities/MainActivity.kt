@@ -1,8 +1,10 @@
 package com.example.auditsec.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.auditsec.R
 import com.example.auditsec.fragments.PortScan
@@ -10,6 +12,7 @@ import com.example.auditsec.fragments.TraceRoute
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,6 +39,12 @@ class MainActivity : AppCompatActivity() {
             replace(R.id.flFragment, fragment)
             commit()
         }
+
+    /*
+    fun traceRouteActivity(view: View) {
+        val intent = Intent(this, TraceActivity::class.java)
+        startActivity(intent)
+    }*/
 
     override fun onStart() {
         super.onStart()
@@ -65,5 +74,10 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d("MAIN_ACTIVITY", "onDestroy()")
+    }
+
+    companion object {
+        const val tag = "TraceroutePing"
+        const val INTENT_TRACE = "INTENT_TRACE"
     }
 }
