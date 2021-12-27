@@ -1,3 +1,0 @@
-/home/jorge/gitRepos/AuditSec/app/.cxx/RelWithDebInfo/2a632m6z/x86_64/CMakeFiles/rebuild_cache.dir
-/home/jorge/gitRepos/AuditSec/app/.cxx/RelWithDebInfo/2a632m6z/x86_64/CMakeFiles/edit_cache.dir
-/home/jorge/gitRepos/AuditSec/app/.cxx/RelWithDebInfo/2a632m6z/x86_64/CMakeFiles/auditsec.dir

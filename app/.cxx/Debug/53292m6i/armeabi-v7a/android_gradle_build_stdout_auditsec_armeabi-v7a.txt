@@ -1,2 +1,0 @@
-ninja: Entering directory `/home/jorge/gitRepos/AuditSec/app/.cxx/Debug/53292m6i/armeabi-v7a'
-ninja: no work to do.

@@ -1,3 +1,0 @@
-/home/jorge/gitRepos/AuditSec/app/.cxx/Debug/53292m6i/armeabi-v7a/CMakeFiles/rebuild_cache.dir
-/home/jorge/gitRepos/AuditSec/app/.cxx/Debug/53292m6i/armeabi-v7a/CMakeFiles/edit_cache.dir
-/home/jorge/gitRepos/AuditSec/app/.cxx/Debug/53292m6i/armeabi-v7a/CMakeFiles/auditsec.dir
