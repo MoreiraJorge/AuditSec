@@ -187,7 +187,7 @@ class TracerouteWithPing(private val context: TraceActivity) {
             //var command = ""
             val format = "ping google.pt -t 1 -c 1"
             //command = String.format(format, ttl)
-            val commands = arrayOf("ping", "-c", "1", "-t", "1", "google.pt")
+            val commands = arrayOf("ping", "-c", "1", "-t", "1", "grab.com")
             Log.d(TraceActivity.tag, "Will launch : $commands$url")
             val startTime = System.nanoTime()
             elapsedTime = 0f
