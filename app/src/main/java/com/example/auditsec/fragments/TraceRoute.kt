@@ -1,24 +1,19 @@
-package com.example.auditsec.activities
+package com.example.auditsec.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import com.example.auditsec.R
-import android.view.View
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import com.example.auditsec.R
+import com.example.auditsec.activities.MainActivity
 import com.example.auditsec.adapters.TraceListAdapter
 import com.example.auditsec.classes.TracerouteContainer
 import com.example.auditsec.classes.TracerouteWithPing
 
-
-/**
- * The main activity
- *
- * @author Olivier Goutay
- */
-class TraceActivity : AppCompatActivity() {
+class TraceRoute : Fragment(R.layout.fragment_trace_route) {
     private lateinit var buttonLaunch: Button;
     private lateinit var editTextPing: EditText;
     private lateinit var progressBarPing: ProgressBar;
@@ -29,29 +24,40 @@ class TraceActivity : AppCompatActivity() {
 
     private val maxTtl = 40
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        setHasOptionsMenu(true);
+        return inflater.inflate(R.layout.fragment_trace_route, container, false)
+    }
 
-        setContentView(R.layout.activity_trace)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        tracerouteWithPing = TracerouteWithPing(this)
+        tracerouteWithPing = TracerouteWithPing(this.context as MainActivity, this)
         traces = ArrayList()
-        buttonLaunch = findViewById(R.id.buttonLaunch)
-        editTextPing = findViewById(R.id.editTextPing)
-        listViewTraceroute = findViewById(R.id.listViewTraceroute)
-        progressBarPing = findViewById(R.id.progressBarPing)
+        buttonLaunch = view.findViewById(R.id.buttonLaunch)
+        editTextPing = view.findViewById(R.id.editTextPing)
+        listViewTraceroute = view.findViewById(R.id.listViewTraceroute)
+        progressBarPing = view.findViewById(R.id.progressBarPing)
 
         initView()
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
     private fun initView() {
-        traceListAdapter = TraceListAdapter(applicationContext,
-            traces as ArrayList<TracerouteContainer>
-        )
+        traceListAdapter = this.context?.let {
+            TraceListAdapter(
+                it,
+                traces as ArrayList<TracerouteContainer>
+            )
+        }!!
         listViewTraceroute.adapter = traceListAdapter
         buttonLaunch.setOnClickListener {
             if (editTextPing.text.isEmpty()) {
-                Toast.makeText(this@TraceActivity, "No text", Toast.LENGTH_SHORT)
+                Toast.makeText(this.context, "No text", Toast.LENGTH_SHORT)
                     .show()
             } else {
                 traces.clear()
@@ -71,9 +77,10 @@ class TraceActivity : AppCompatActivity() {
      */
     fun refreshList(trace: TracerouteContainer) {
         val fTrace: TracerouteContainer = trace
-        runOnUiThread {
+        activity?.runOnUiThread {
             traces.add(fTrace)
             traceListAdapter.notifyDataSetChanged()
+
         }
     }
 
@@ -84,7 +91,8 @@ class TraceActivity : AppCompatActivity() {
      * The current selected edittext
      */
     fun hideSoftwareKeyboard(currentEditText: EditText) {
-        val imm = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm.isActive) {
             imm.hideSoftInputFromWindow(
                 currentEditText.windowToken,
@@ -99,10 +107,5 @@ class TraceActivity : AppCompatActivity() {
 
     fun stopProgressBar() {
         progressBarPing.visibility = View.GONE
-    }
-
-    companion object {
-        const val tag = "TraceroutePing"
-        const val INTENT_TRACE = "INTENT_TRACE"
     }
 }

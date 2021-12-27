@@ -16,9 +16,6 @@
             android:name=".activities.TraceActivity"
             android:exported="true" />
         <activity
-            android:name=".activities.ScannerActivity"
-            android:exported="true" />
-        <activity
             android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>

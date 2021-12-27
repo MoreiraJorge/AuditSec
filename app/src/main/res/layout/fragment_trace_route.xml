@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MainActivity" >
+
+    <EditText
+        android:id="@+id/editTextPing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/placeholder"
+        android:inputType="text"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/buttonLaunch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextPing"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="@string/activity_button" />
+
+    <ListView
+        android:id="@+id/listViewTraceroute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonLaunch"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBarPing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/listViewTraceroute"
+        android:layout_toEndOf="@+id/buttonLaunch"
+        android:visibility="gone" />
+
+</RelativeLayout>

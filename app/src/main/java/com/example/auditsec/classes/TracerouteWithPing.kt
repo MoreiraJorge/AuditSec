@@ -6,7 +6,8 @@ import android.os.AsyncTask
 import android.os.Handler
 import android.util.Log
 import android.widget.Toast
-import com.example.auditsec.activities.TraceActivity
+import com.example.auditsec.activities.MainActivity
+import com.example.auditsec.fragments.TraceRoute
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.Exception
@@ -18,7 +19,7 @@ import java.net.InetAddress
  * This class contain everything needed to launch a traceroute using the ping command
  *
  */
-class TracerouteWithPing(private val context: TraceActivity) {
+class TracerouteWithPing(private val context: MainActivity, private val fragment: TraceRoute) {
     private var latestTrace: TracerouteContainer? = null
     private var ttl = 0
     private var finishedTasks = 0
@@ -66,7 +67,7 @@ class TracerouteWithPing(private val context: TraceActivity) {
             runnableTimeout = Runnable {
                 if (task != null) {
                     Log.e(
-                        TraceActivity.tag,
+                        MainActivity.tag,
                         ttlTask.toString() + " task.isFinished()" + finishedTasks + " " + (ttlTask == finishedTasks)
                     )
                     if (ttlTask == finishedTasks) {
@@ -77,7 +78,7 @@ class TracerouteWithPing(private val context: TraceActivity) {
                         ).show()
                         task.isCancelled = true
                         task.cancel(true)
-                        context.stopProgressBar()
+                        fragment.stopProgressBar()
                     }
                 }
             }
@@ -124,16 +125,16 @@ class TracerouteWithPing(private val context: TraceActivity) {
                     val canonicalHostname = inetAddr.canonicalHostName
                     trace.hostname = hostname
                     latestTrace = trace
-                    Log.d(TraceActivity.tag, "hostname : $hostname")
-                    Log.d(TraceActivity.tag, "canonicalHostname : $canonicalHostname")
+                    Log.d(MainActivity.tag, "hostname : $hostname")
+                    Log.d(MainActivity.tag, "canonicalHostname : $canonicalHostname")
 
                     // Store the TracerouteContainer object
-                    Log.d(TraceActivity.tag, trace.toString())
+                    Log.d(MainActivity.tag, trace.toString())
 
                     // Not refresh list if this ip is the final ip but the ttl is not maxTtl
                     // this row will be inserted later
                     if (ip != ipToPing || ttl == maxTtl) {
-                        context.refreshList(trace)
+                        fragment.refreshList(trace)
                     }
                     return res
                // } catch (e: Exception) {
@@ -188,7 +189,7 @@ class TracerouteWithPing(private val context: TraceActivity) {
             val format = "ping google.pt -t 1 -c 1"
             //command = String.format(format, ttl)
             val commands = arrayOf("ping", "-c", "1", "-t", "1", "facebook.com")
-            Log.d(TraceActivity.tag, "Will launch : $commands$url")
+            Log.d(MainActivity.tag, "Will launch : $commands$url")
             val startTime = System.nanoTime()
             elapsedTime = 0f
             // timeout task
@@ -236,13 +237,13 @@ class TracerouteWithPing(private val context: TraceActivity) {
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
-                            Log.d(TraceActivity.tag, result)
+                            Log.d(MainActivity.tag, result)
                             if (latestTrace != null && latestTrace!!.ip == ipToPing) {
                                 if (ttl < maxTtl) {
                                     ttl = maxTtl
                                     ExecutePingAsyncTask(maxTtl).execute()
                                 } else {
-                                    context.stopProgressBar()
+                                    fragment.stopProgressBar()
                                 }
                             } else {
                                 if (ttl < maxTtl) {
@@ -269,7 +270,7 @@ class TracerouteWithPing(private val context: TraceActivity) {
          * The exception thrown
          */
         private fun onException(e: Exception) {
-            Log.e(TraceActivity.tag, e.toString())
+            Log.e(MainActivity.tag, e.toString())
             if (e is IllegalArgumentException) {
                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT)
                     .show()
@@ -277,7 +278,7 @@ class TracerouteWithPing(private val context: TraceActivity) {
                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT)
                     .show()
             }
-            context.stopProgressBar()
+            fragment.stopProgressBar()
             finishedTasks++
         }
 

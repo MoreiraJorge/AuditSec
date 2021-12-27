@@ -5,25 +5,46 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.example.auditsec.R
+import com.example.auditsec.fragments.PortScan
+import com.example.auditsec.fragments.TraceRoute
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val portScan = PortScan()
+        val traceRoute = TraceRoute()
+
+        setCurrentFragment(portScan)
+
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottomNavigationView)
+
+        bottomNavigationView
+            .setOnItemSelectedListener {
+                when (it.itemId) {
+                    R.id.port_scan -> setCurrentFragment(portScan)
+                    R.id.traceroute -> setCurrentFragment(traceRoute)
+                }
+                true
+            }
     }
 
-    fun scannerActivity(view: View) {
-        val intent = Intent(this, ScannerActivity::class.java)
-        startActivity(intent)
-    }
+    private fun setCurrentFragment(fragment: Fragment) =
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.flFragment, fragment)
+            commit()
+        }
 
+    /*
     fun traceRouteActivity(view: View) {
         val intent = Intent(this, TraceActivity::class.java)
         startActivity(intent)
-    }
+    }*/
 
     override fun onStart() {
         super.onStart()
@@ -53,5 +74,10 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d("MAIN_ACTIVITY", "onDestroy()")
+    }
+
+    companion object {
+        const val tag = "TraceroutePing"
+        const val INTENT_TRACE = "INTENT_TRACE"
     }
 }
