@@ -90,7 +90,7 @@ class TraceRoute : Fragment(R.layout.fragment_trace_route) {
      * @param currentEditText
      * The current selected edittext
      */
-    fun hideSoftwareKeyboard(currentEditText: EditText) {
+    private fun hideSoftwareKeyboard(currentEditText: EditText) {
         val imm =
             activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm.isActive) {
@@ -101,7 +101,7 @@ class TraceRoute : Fragment(R.layout.fragment_trace_route) {
         }
     }
 
-    fun startProgressBar() {
+    private fun startProgressBar() {
         progressBarPing.visibility = View.VISIBLE
     }
 
