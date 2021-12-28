@@ -14,15 +14,11 @@ import com.example.auditsec.classes.FilterPort
 import com.example.auditsec.utils.Sort
 import kotlin.Comparator
 import kotlin.collections.ArrayList
-import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.GradientDrawable
-
-import androidx.core.content.ContextCompat
-
-import android.graphics.drawable.ShapeDrawable
-
+import com.example.auditsec.classes.PORT_DETAILS
+import com.example.auditsec.classes.Protocol
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 
 class ScannerRecyclerAdapter() : RecyclerView.Adapter<ScannerRecyclerAdapter.ViewHolder>(),
     Filterable {
@@ -31,13 +27,27 @@ class ScannerRecyclerAdapter() : RecyclerView.Adapter<ScannerRecyclerAdapter.Vie
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.rv_scanner_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.rv_port_status_card, parent, false)
+
         return ViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mList[position]
-        holder.textView.text = "${item.portNumber} is ${item.portStatus}"
+        val portDetail = PORT_DETAILS.get(item.portNumber.toString())
+        var portDescription = "No possible running services known"
+        var protocols = null
+
+        if(portDetail is JsonObject) {
+            protocols = retrieveProtocolsForPort(portDetail)
+            portDescription = portDetail.get("description").asString
+        } else if(portDetail is JsonArray) {
+            portDescription = "There are multiple possible services running on this port"
+        }
+
+        holder.tvPortScanned.text = "Port ${item.portNumber}"
+        holder.tvPortStatus.text = "${item.portStatus}"
+        holder.tvPortDescription.text = portDescription
         val imageView = holder.itemView.findViewById<ImageView>(R.id.spStatus)
         val drawable = imageView.drawable.mutate()
 
@@ -68,12 +78,33 @@ class ScannerRecyclerAdapter() : RecyclerView.Adapter<ScannerRecyclerAdapter.Vie
     }
 
     class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val textView: TextView = ItemView.findViewById(R.id.tvPortScanDetails);
+        val tvPortScanned: TextView = ItemView.findViewById(R.id.tvPortScanned);
+        val tvPortStatus: TextView = ItemView.findViewById(R.id.tvPortStatus);
+        val tvPortDescription: TextView = ItemView.findViewById(R.id.tvPortDescription);
     }
 
     fun addItem(item: ScannerItem) {
         mList.add(item)
         notifyItemInserted(mList.size - 1)
+    }
+
+    private fun retrieveProtocolsForPort(portDetails: JsonObject): ArrayList<Protocol> {
+        var existingProtocols: ArrayList<Protocol> = ArrayList()
+
+        if(portDetails.get("tcp").asString.trim().isNotEmpty())
+            existingProtocols.add(Protocol("TCP", portDetails.get("tcp").asString.trim()))
+        if(portDetails.get("udp").asString.trim().isNotEmpty())
+            existingProtocols.add(Protocol("UDP", portDetails.get("udp").asString.trim()))
+        if(portDetails.get("sctp").asString.trim().isNotEmpty())
+            existingProtocols.add(Protocol("SCTP", portDetails.get("sctp").asString.trim()))
+        if(portDetails.get("dccp").asString.trim().isNotEmpty())
+            existingProtocols.add(Protocol("DCCP", portDetails.get("dccp").asString.trim()))
+
+        return existingProtocols
+    }
+
+    private fun addProtocolChips(protocols: ArrayList<Protocol>) {
+
     }
 
     override fun getFilter(): Filter {
