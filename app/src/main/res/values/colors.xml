@@ -10,4 +10,9 @@
     <color name="open_port">#42ba96</color>
     <color name="closed_port">#ff0033</color>
     <color name="filtered_port">#eed202</color>
+    <color name="protocol_yes">#9F9</color>
+    <color name="protocol_unofficial">#5FC</color>
+    <color name="protocol_assigned">#ffff90</color>
+    <color name="protocol_no">#F99</color>
+    <color name="protocol_reserved">#ececec</color>
 </resources>

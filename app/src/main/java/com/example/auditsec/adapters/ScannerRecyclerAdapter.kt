@@ -1,5 +1,6 @@
 package com.example.auditsec.adapters
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,9 @@ import kotlin.collections.ArrayList
 import android.graphics.PorterDuff
 import com.example.auditsec.classes.PORT_DETAILS
 import com.example.auditsec.classes.Protocol
+import com.example.auditsec.utils.ProtocolStatus
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 
@@ -35,14 +39,15 @@ class ScannerRecyclerAdapter() : RecyclerView.Adapter<ScannerRecyclerAdapter.Vie
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mList[position]
         val portDetail = PORT_DETAILS.get(item.portNumber.toString())
-        var portDescription = "No possible running services known"
-        var protocols = null
+        var portDescription = "No possible services known for this port"
+        var protocols: ArrayList<Protocol>
 
         if(portDetail is JsonObject) {
             protocols = retrieveProtocolsForPort(portDetail)
+            addProtocolChips(protocols, holder)
             portDescription = portDetail.get("description").asString
         } else if(portDetail is JsonArray) {
-            portDescription = "There are multiple possible services running on this port"
+            portDescription = "There are multiple possible services for this port"
         }
 
         holder.tvPortScanned.text = "Port ${item.portNumber}"
@@ -81,6 +86,7 @@ class ScannerRecyclerAdapter() : RecyclerView.Adapter<ScannerRecyclerAdapter.Vie
         val tvPortScanned: TextView = ItemView.findViewById(R.id.tvPortScanned);
         val tvPortStatus: TextView = ItemView.findViewById(R.id.tvPortStatus);
         val tvPortDescription: TextView = ItemView.findViewById(R.id.tvPortDescription);
+        val chipGroup: ChipGroup = itemView.findViewById(R.id.cgProtocols)
     }
 
     fun addItem(item: ScannerItem) {
@@ -103,8 +109,28 @@ class ScannerRecyclerAdapter() : RecyclerView.Adapter<ScannerRecyclerAdapter.Vie
         return existingProtocols
     }
 
-    private fun addProtocolChips(protocols: ArrayList<Protocol>) {
+    private fun addProtocolChips(protocols: ArrayList<Protocol>, holder: ViewHolder) {
+        holder.chipGroup.removeAllViews()
+        for (protocol in protocols) {
+            val chip = Chip(holder.chipGroup.context)
+            chip.text= protocol.protocolName
 
+            chip.isClickable = false
+            chip.isCheckable = false
+
+            var chipColor: Int = 0
+
+            when (protocol.protocolStatus) {
+                "Yes" -> chipColor = R.color.protocol_yes
+                "No" -> chipColor = R.color.protocol_no
+                "Assigned" -> chipColor = R.color.protocol_assigned
+                "Unofficial" -> chipColor = R.color.protocol_unofficial
+                "Reserved" -> chipColor = R.color.protocol_reserved
+            }
+
+            chip.chipBackgroundColor = ColorStateList.valueOf(holder.itemView.resources.getColor(chipColor))
+            holder.chipGroup.addView(chip)
+        }
     }
 
     override fun getFilter(): Filter {
