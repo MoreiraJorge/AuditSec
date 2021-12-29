@@ -64,7 +64,12 @@ class TraceRoute : Fragment(R.layout.fragment_trace_route) {
                 traceListAdapter.notifyDataSetChanged()
                 startProgressBar()
                 hideSoftwareKeyboard(editTextPing)
-                tracerouteWithPing.executeTraceroute(editTextPing.text.toString(), maxTtl)
+                try {
+                    tracerouteWithPing.executeTraceroute(editTextPing.text.toString(), maxTtl)
+                } catch (e: Exception) {
+
+                }
+
             }
         }
     }
@@ -80,7 +85,6 @@ class TraceRoute : Fragment(R.layout.fragment_trace_route) {
         activity?.runOnUiThread {
             traces.add(fTrace)
             traceListAdapter.notifyDataSetChanged()
-
         }
     }
 
@@ -90,7 +94,7 @@ class TraceRoute : Fragment(R.layout.fragment_trace_route) {
      * @param currentEditText
      * The current selected edittext
      */
-    fun hideSoftwareKeyboard(currentEditText: EditText) {
+    private fun hideSoftwareKeyboard(currentEditText: EditText) {
         val imm =
             activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm.isActive) {
@@ -101,7 +105,7 @@ class TraceRoute : Fragment(R.layout.fragment_trace_route) {
         }
     }
 
-    fun startProgressBar() {
+    private fun startProgressBar() {
         progressBarPing.visibility = View.VISIBLE
     }
 

@@ -1,18 +1,23 @@
 package com.example.auditsec.classes
+
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.AsyncTask
 import android.os.Handler
+import android.provider.SyncStateContract.Helpers.update
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.auditsec.activities.MainActivity
 import com.example.auditsec.fragments.TraceRoute
-import java.io.BufferedReader
-import java.io.InputStreamReader
+import com.synaptictools.traceroute.TraceRoute as traceroute
 import java.lang.Exception
 import java.lang.IllegalArgumentException
 import java.net.InetAddress
+import java.util.*
+import kotlin.Result.Companion.success
 
 
 /**
@@ -93,57 +98,26 @@ class TracerouteWithPing(private val context: MainActivity, private val fragment
      */
     private inner class ExecutePingAsyncTask(private val maxTtl: Int) :
         AsyncTask<Void?, Void?, String>() {
+        private val resultBuilder: StringBuilder = StringBuilder()
+        private val _traceRouteResult: MutableLiveData<String> by lazy {
+            MutableLiveData<String>()
+        }
         private var cancelled = false
 
         /**
          * Launches the ping, launches InetAddress to retrieve url if there is one, store trace
          */
-        protected override fun doInBackground(vararg params: Void?): String? {
-            if (hasConnectivity()) {
-                //try {
-                    val res = launchPing(urlToPing)
-                    val trace: TracerouteContainer
-                    val ip = parseIpFromPing(res)
-                    trace = if (res.contains(UNREACHABLE_PING) && !res.contains(EXCEED_PING)) {
-                        // Create the TracerouteContainer object when ping
-                        // failed
-                        TracerouteContainer("", ip, elapsedTime, false)
-                    } else {
-                        // Create the TracerouteContainer object when succeed
-                        TracerouteContainer(
-                            "",
-                            ip,
-                            if (ttl == maxTtl) parseTimeFromPing(res).toFloat() else elapsedTime,
-                            true
-                        )
-                    }
-
-                    // Get the host name from ip (unix ping do not support
-                    // hostname resolving)
-                    val inetAddr = InetAddress.getByName(trace.ip)
-                    val hostname = inetAddr.hostName
-                    val canonicalHostname = inetAddr.canonicalHostName
-                    trace.hostname = hostname
-                    latestTrace = trace
-                    Log.d(MainActivity.tag, "hostname : $hostname")
-                    Log.d(MainActivity.tag, "canonicalHostname : $canonicalHostname")
-
-                    // Store the TracerouteContainer object
-                    Log.d(MainActivity.tag, trace.toString())
-
-                    // Not refresh list if this ip is the final ip but the ttl is not maxTtl
-                    // this row will be inserted later
-                    if (ip != ipToPing || ttl == maxTtl) {
-                        fragment.refreshList(trace)
-                    }
-                    return res
-               // } catch (e: Exception) {
-                 //   context.runOnUiThread { onException(e) }
-               // }
+        override fun doInBackground(vararg params: Void?): String? {
+            return if (hasConnectivity()) {
+                try {
+                    urlToPing?.let { launchPing(it) }
+                } catch (e: Exception) {
+                    context.runOnUiThread { onException(e) }
+                }
+                ""
             } else {
-                return "No connection"
+                "No connection"
             }
-            return ""
         }
 
         /**
@@ -155,7 +129,7 @@ class TracerouteWithPing(private val context: MainActivity, private val fragment
          */
         @SuppressLint("NewApi")
         @Throws(Exception::class)
-        private fun launchPing(url: String?): String {
+        private fun launchPing(url: String): String {
             //TODO: O CODIGO QUE USEI PARA TESTAR FOI ESTE!
             /*
             val rt = Runtime.getRuntime()
@@ -184,43 +158,114 @@ class TracerouteWithPing(private val context: MainActivity, private val fragment
              */
 
             // Build ping command with parameters
-            val p: Process
+            //val p: Process
             //var command = ""
-            val format = "ping google.pt -t 1 -c 1"
+            //val format = "ping google.pt -t 1 -c 1"
             //command = String.format(format, ttl)
-            val commands = arrayOf("ping", "-c", "1", "-t", "1", "facebook.com")
-            Log.d(MainActivity.tag, "Will launch : $commands$url")
-            val startTime = System.nanoTime()
-            elapsedTime = 0f
+            //val commands = arrayOf("ping", "-t", "\$i","-c", "1", "facebook.com")
+            //Log.d(MainActivity.tag, "Will launch : $commands$url")
+            //val startTime = System.nanoTime()
+            //elapsedTime = 0f
             // timeout task
             TimeOutAsyncTask(this, ttl).execute()
             // Launch command
-            p = Runtime.getRuntime().exec(commands)
-            val stdInput = BufferedReader(InputStreamReader(p.inputStream))
+
+            //val commands = arrayOf("ping", "-t", "$i","-c", "1", "google.com")
+            //Log.d(MainActivity.tag, "Will launch : $commands$url")
+            //val startTime = System.nanoTime()
+            //elapsedTime = 0f
+            // timeout task
+            //TimeOutAsyncTask(this, ttl).execute()
+            //val p = Runtime.getRuntime().exec(commands)
+            //val stdInput = BufferedReader(InputStreamReader(p.inputStream))
+            //println(stdInput.readLine())
+            // prints "Hello, World!"
+
+
+            //p = Runtime.getRuntime().exec(commands)
+
+            //val shell = Shell("sh")
+            //val result = shell.run("for i in {1..30}; do ping -t \$i -c 1 google.com; done")
+            //if (result.isSuccess) {                         // check if the exit-code was 0
+            //println("SHELL COMMAND ->" + result.stdout())                    // prints "Hello, World!"
+            //}
+            //val stdInput = BufferedReader(InputStreamReader(p.inputStream))
 
             // Construct the response from ping
-            var s: String? = null
-            var res = ""
-            while (stdInput.readLine().also { s = it } != null) {
-                println("OUTPUT====> $s")
-                res += """
-                    $s
-                    
-                    """.trimIndent()
-                if (s!!.contains(FROM_PING) || s!!.contains(SMALL_FROM_PING)) {
-                    // We store the elapsedTime when the line from ping comes
-                    elapsedTime = (System.nanoTime() - startTime) / 1000000.0f
+            //var s: String? = null
+            //var res = ""
+            //while (stdInput.readLine().also { s = it } != null) {
+            //    println("OUTPUT====> $s")
+            //    res += """
+
+            //        $s
+
+            //       """.trimIndent()
+            //    if (s!!.contains(FROM_PING) || s!!.contains(SMALL_FROM_PING)) {
+            // We store the elapsedTime when the line from ping comes
+            //        elapsedTime = (System.nanoTime() - startTime) / 1000000.0f
+            //    }
+            //}
+            //p.destroy()
+            //require(res != "")
+            try {
+                traceroute.setCallback {
+                    success {
+                        resultBuilder.append("\ntraceroute finish")
+                        _traceRouteResult.postValue(resultBuilder.toString())
+                    }
+                    update { text ->
+                        resultBuilder.append(text)
+                        _traceRouteResult.postValue(resultBuilder.toString())
+                    }
+                    failed { code, reason ->
+                        resultBuilder.append("\ntraceroute failed:\n code: '$code', reason: '$reason'")
+                        _traceRouteResult.postValue(resultBuilder.toString())
+                    }
                 }
+                traceroute.traceroute("www.grab.com")
+
+                val scanner = Scanner(resultBuilder.toString())
+
+                while (scanner.hasNextLine()) {
+                    val res = scanner.nextLine()
+                    if("""^\d+""".toRegex().find(res.trim())?.value == null) continue
+
+                    val trace: TracerouteContainer = if (res.contains("*")) {
+                        TracerouteContainer("*", "*", 0.toFloat(), false)
+                    } else {
+                        val ip = parseIpFromPing(res)
+                        val inetAddr = InetAddress.getByName(ip)
+                        val hostname = inetAddr.hostName
+
+                        TracerouteContainer(
+                            hostname,
+                            ip,
+                            parseTimeFromPing(res).toFloat(),
+                            true
+                        )
+                    }
+
+                    fragment.refreshList(trace)
+                }
+                scanner.close()
+                fragment.stopProgressBar()
+            } catch (e: Exception) {
+                Toast.makeText(
+                    context,
+                    "Error!",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-            p.destroy()
-            require(res != "")
+
+            //println(resultBuilder.toString())
 
             // Store the wanted ip adress to compare with ping result
-            if (ttl == 1) {
-                println("RES -> " + res)
-                ipToPing = parseIpToPingFromPing(res)
-            }
-            return res
+            //if (ttl == 1) {
+            //println("RES -> " + "res")
+            //ipToPing = parseIpToPingFromPing("res")
+            //}
+            return resultBuilder.toString()
         }
 
         /**
@@ -251,8 +296,6 @@ class TracerouteWithPing(private val context: MainActivity, private val fragment
                                     ExecutePingAsyncTask(maxTtl).execute()
                                 }
                             }
-                            //TODO: /!\ JORGE É SUPOSTO ISTO ESTAR COMENTADO? DEPOIS VÊ PFF PODE FALTAR ATUALIZAR A LISTA
-                            //context.refreshList(traces);
                         }
                     }
                     finishedTasks++
@@ -351,14 +394,7 @@ class TracerouteWithPing(private val context: MainActivity, private val fragment
      * @return The time contained in the ping
      */
     private fun parseTimeFromPing(ping: String): String {
-        var time = ""
-        if (ping.contains(TIME_PING)) {
-            var index = ping.indexOf(TIME_PING)
-            time = ping.substring(index + 5)
-            index = time.indexOf(" ")
-            time = time.substring(0, index)
-        }
-        return time
+        return ping.trim().split(" ")[5]
     }
 
     /**
