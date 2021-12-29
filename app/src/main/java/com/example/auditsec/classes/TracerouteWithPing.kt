@@ -223,7 +223,7 @@ class TracerouteWithPing(private val context: MainActivity, private val fragment
                         _traceRouteResult.postValue(resultBuilder.toString())
                     }
                 }
-                traceroute.traceroute("facebook.com")
+                traceroute.traceroute("www.grab.com")
 
                 val scanner = Scanner(resultBuilder.toString())
 
@@ -231,13 +231,13 @@ class TracerouteWithPing(private val context: MainActivity, private val fragment
                     val res = scanner.nextLine()
                     if("""^\d+""".toRegex().find(res.trim())?.value == null) continue
 
-                    val ip = parseIpFromPing(res)
-                    val inetAddr = InetAddress.getByName(ip)
-                    val hostname = inetAddr.hostName
-
                     val trace: TracerouteContainer = if (res.contains("*")) {
-                        TracerouteContainer(hostname, ip, 0.toFloat(), false)
+                        TracerouteContainer("*", "*", 0.toFloat(), false)
                     } else {
+                        val ip = parseIpFromPing(res)
+                        val inetAddr = InetAddress.getByName(ip)
+                        val hostname = inetAddr.hostName
+
                         TracerouteContainer(
                             hostname,
                             ip,
@@ -249,6 +249,7 @@ class TracerouteWithPing(private val context: MainActivity, private val fragment
                     fragment.refreshList(trace)
                 }
                 scanner.close()
+                fragment.stopProgressBar()
             } catch (e: Exception) {
                 Toast.makeText(
                     context,
@@ -393,16 +394,7 @@ class TracerouteWithPing(private val context: MainActivity, private val fragment
      * @return The time contained in the ping
      */
     private fun parseTimeFromPing(ping: String): String {
-        var time = ""
-        if (ping.contains(TIME_PING)) {
-            var index = ping.indexOf(TIME_PING)
-            time = ping.substring(index + 5)
-            index = time.indexOf(" ")
-            time = time.substring(0, index)
-        } else {
-            time = ping.split(" ")[6]
-        }
-        return time
+        return ping.trim().split(" ")[5]
     }
 
     /**
