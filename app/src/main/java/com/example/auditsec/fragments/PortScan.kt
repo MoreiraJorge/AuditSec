@@ -64,6 +64,9 @@ class PortScan : Fragment() {
 
         if (id == R.id.action_sort) {
             sortDialog()
+        } else if(id == R.id.help){
+            println("Clicked!")
+            helpDialog()
         }
 
         return super.onOptionsItemSelected(item)
@@ -118,5 +121,10 @@ class PortScan : Fragment() {
                     adapter.sortList(Sort.DESC)
                 }
             }.show()
+    }
+
+    private fun helpDialog() {
+        val newFragment = DialogHelp()
+        newFragment.show(parentFragmentManager, "Help Ports")
     }
 }

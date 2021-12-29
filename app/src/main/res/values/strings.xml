@@ -10,4 +10,38 @@
     <string name="scanner_button">Scanner</string>
     <string name="no_scan_results_yet">No Scan results yet</string>
     <string name="test_Text_view">Scan result</string>
+    <string name="descriptionhelp">DescriptionHelp</string>
+    <string name="descriptionYes">Described protocol is
+        assigned for this
+        port by IANA and
+        is standardized,
+        specified,
+        or widely used for such.</string>
+    <string name="descriptionUN">
+        Described protocol is not assigned
+        for this port by IANA but is standardized,
+        specified, or widely used for such.</string>
+    <string name="descriptionAssigned">
+        Described protocol is assigned
+        by IANA for this port,
+        but is not standardized,
+        specified, or widely used for such.</string>
+    <string name="descriptionNo">
+        Described protocol is not assigned
+        by IANA, standardized, specified,
+        or widely used for the port.</string>
+    <string name="descriptionReserved">
+        Port is reserved by IANA,
+        generally to prevent collision
+        having its previous use removed.
+        The port number may be available for
+        assignment upon request to IANA.
+    </string>
+    <string name="yes">Yes</string>
+    <string name="unofficial">Unofficial</string>
+    <string name="assigned">Assigned</string>
+    <string name="no">No</string>
+    <string name="reserved">Reserved</string>
+    <string name="protocol_status_description">Protocol status description</string>
+    <string name="IANA">IANA - Internet Assigned Numbers Authority</string>
 </resources>
