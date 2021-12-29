@@ -19,15 +19,11 @@ import com.google.android.material.textfield.TextInputEditText
 import java.util.concurrent.Executors
 
 class PortScan : Fragment() {
-    private lateinit var scanButton: Button;
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ScannerRecyclerAdapter
-
-
+    private lateinit var tiIpAddress: String
+    private lateinit var tiPorts: String
     private val NUM_THREADS = 10
-    private lateinit var host: String
-    private val commonlyUsedPorts: ArrayList<Int> =
-        arrayListOf(22, 80, 443, 3306, 21, 25, 53, 1720, 8080, 8988, 9999)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,7 +31,17 @@ class PortScan : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true);
+        val bundle = arguments
+        if (bundle != null) {
+            tiIpAddress = bundle.getString("tiIpAddress") as String
+            tiPorts = bundle.getString("tiPorts") as String
+        }
         return inflater.inflate(R.layout.fragment_port_scan, container, false)
+    }
+
+    override fun onStart() {
+        scan()
+        super.onStart()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -77,31 +83,17 @@ class PortScan : Fragment() {
 
         adapter = ScannerRecyclerAdapter()
         recyclerView = view.findViewById<RecyclerView>(R.id.rvScanResult)
-        scanButton = view.findViewById(R.id.btScan)
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = adapter
 
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL));
 
-        scanButton = view.findViewById<Button>(R.id.btScan)
-        val tiIpAddress: EditText = view.findViewById<EditText>(R.id.tiIpAddress)
-        val tiPorts: TextInputEditText = view.findViewById<TextInputEditText>(R.id.tiPorts)
-
-        scanButton.setOnClickListener {
-            host = tiIpAddress.text.toString()
-            val tiPortsText = tiPorts.text.toString()
-
-            if (tiPortsText.trim().isNotEmpty()) {
-                val ports = PortUtils.retrievePorts(tiPortsText)
-
-                scan(ports, adapter)
-            }
-        }
     }
 
-    private fun scan(commonlyUsedPorts: ArrayList<Int>, adapter: ScannerRecyclerAdapter) {
+    private fun scan() {
+        val ports = PortUtils.retrievePorts(tiPorts)
         val executor = Executors.newFixedThreadPool(16)
-        val worker = PortScan(host, adapter, commonlyUsedPorts, activity)
+        val worker = PortScan(tiIpAddress, adapter, ports, activity)
         for (i in 1..NUM_THREADS) {
             executor.execute(worker)
         }
