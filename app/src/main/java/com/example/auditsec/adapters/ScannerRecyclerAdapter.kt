@@ -129,6 +129,7 @@ class ScannerRecyclerAdapter() : RecyclerView.Adapter<ScannerRecyclerAdapter.Vie
             }
 
             chip.chipBackgroundColor = ColorStateList.valueOf(holder.itemView.resources.getColor(chipColor))
+            chip.setTextColor(ColorStateList.valueOf(holder.itemView.resources.getColor(R.color.black)))
             holder.chipGroup.addView(chip)
         }
     }
