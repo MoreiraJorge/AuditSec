@@ -64,7 +64,12 @@ class TraceRoute : Fragment(R.layout.fragment_trace_route) {
                 traceListAdapter.notifyDataSetChanged()
                 startProgressBar()
                 hideSoftwareKeyboard(editTextPing)
-                tracerouteWithPing.executeTraceroute(editTextPing.text.toString(), maxTtl)
+                try {
+                    tracerouteWithPing.executeTraceroute(editTextPing.text.toString(), maxTtl)
+                } catch (e: Exception) {
+
+                }
+
             }
         }
     }
@@ -80,7 +85,6 @@ class TraceRoute : Fragment(R.layout.fragment_trace_route) {
         activity?.runOnUiThread {
             traces.add(fTrace)
             traceListAdapter.notifyDataSetChanged()
-
         }
     }
 
