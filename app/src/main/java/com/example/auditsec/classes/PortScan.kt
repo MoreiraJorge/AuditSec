@@ -16,7 +16,6 @@ class PortScan(private val _host: String,
 
     override fun run() {
         while (true) {
-            //sleep((0..300).random().toLong())
             if (portsList.size == 0) {
                 return
             }

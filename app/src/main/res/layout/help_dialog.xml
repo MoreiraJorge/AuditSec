@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tvHelpTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/protocol_status_description"
+        android:textColor="#000000"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        >
+
+        <TextView
+            android:id="@+id/tvYes"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#9F9"
+            android:gravity="center"
+            android:minWidth="30dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/yes"
+            android:textAlignment="gravity"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/tvYesDescription"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="6dp"
+            android:layout_weight="2"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="@string/descriptionhelp"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp">
+
+        <TextView
+            android:id="@+id/tvUnofficial"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#5FC"
+            android:gravity="center"
+            android:minWidth="30dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/unofficial"
+            android:textAlignment="gravity"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/tvUnofficialDescription"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="6dp"
+            android:layout_weight="2"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="@string/descriptionhelp"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp">
+
+        <TextView
+            android:id="@+id/tvAssigned"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffff90"
+            android:gravity="center"
+            android:minWidth="30dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/assigned"
+            android:textAlignment="gravity"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/tvAssignedDescription"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="6dp"
+            android:layout_weight="2"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="@string/descriptionhelp"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp">
+
+        <TextView
+            android:id="@+id/tvNo"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#F99"
+            android:gravity="center"
+            android:minWidth="30dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/no"
+            android:textAlignment="gravity"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/tvNoDescription"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="6dp"
+            android:layout_weight="2"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="@string/descriptionhelp"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp">
+
+        <TextView
+            android:id="@+id/tvReserved"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ececec"
+            android:gravity="center"
+            android:minWidth="30dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:text="@string/reserved"
+            android:textAlignment="gravity"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/tvReservedDescription"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="6dp"
+            android:layout_weight="2"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:text="@string/descriptionhelp"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/IANA"
+        android:textColor="#000000"
+        android:textSize="10sp" />
+
+</LinearLayout>

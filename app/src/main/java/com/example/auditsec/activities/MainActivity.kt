@@ -6,10 +6,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.example.auditsec.R
 import com.example.auditsec.fragments.PortScan
+import com.example.auditsec.fragments.PortScanConfiguration
 import com.example.auditsec.fragments.TraceRoute
 import com.google.android.material.bottomnavigation.BottomNavigationView
+
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val portScan = PortScan()
+        val portScan = PortScanConfiguration()
         val traceRoute = TraceRoute()
 
         setCurrentFragment(portScan)
@@ -40,11 +46,17 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
 
-    /*
-    fun traceRouteActivity(view: View) {
-        val intent = Intent(this, TraceActivity::class.java)
-        startActivity(intent)
-    }*/
+    fun replacePortScan(tiIpAddress: String, tiPorts: String) {
+            val newFragment = PortScan()
+            val bundle = Bundle()
+            bundle.putString("tiIpAddress", tiIpAddress)
+            bundle.putString("tiPorts", tiPorts)
+            newFragment.arguments = bundle
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.flFragment, newFragment)
+                .addToBackStack(null)
+                .commit()
+    }
 
     override fun onStart() {
         super.onStart()

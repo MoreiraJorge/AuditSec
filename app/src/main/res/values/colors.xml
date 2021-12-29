@@ -7,6 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="open_port">#42ba96</color>
+    <color name="closed_port">#ff0033</color>
+    <color name="filtered_port">#eed202</color>
+    <color name="protocol_yes">#9F9</color>
+    <color name="protocol_unofficial">#5FC</color>
+    <color name="protocol_assigned">#ffff90</color>
+    <color name="protocol_no">#F99</color>
+    <color name="protocol_reserved">#ececec</color>
     <color name="red">#FF4612</color>
     <color name="green">#80CC00</color>
 </resources>
