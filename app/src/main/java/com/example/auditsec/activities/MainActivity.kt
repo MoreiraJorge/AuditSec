@@ -1,8 +1,10 @@
 package com.example.auditsec.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -16,6 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
 
-    fun ReplacePortScan(tiIpAddress: String, tiPorts: String) {
+    fun replacePortScan(tiIpAddress: String, tiPorts: String) {
             val newFragment = PortScan()
             val bundle = Bundle()
             bundle.putString("tiIpAddress", tiIpAddress)
@@ -83,5 +86,10 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d("MAIN_ACTIVITY", "onDestroy()")
+    }
+
+    companion object {
+        const val tag = "TraceroutePing"
+        const val INTENT_TRACE = "INTENT_TRACE"
     }
 }

@@ -15,4 +15,6 @@
     <color name="protocol_assigned">#ffff90</color>
     <color name="protocol_no">#F99</color>
     <color name="protocol_reserved">#ececec</color>
+    <color name="red">#FF4612</color>
+    <color name="green">#80CC00</color>
 </resources>

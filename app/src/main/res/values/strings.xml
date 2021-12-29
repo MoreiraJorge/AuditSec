@@ -44,4 +44,8 @@
     <string name="reserved">Reserved</string>
     <string name="protocol_status_description">Protocol status description</string>
     <string name="IANA">IANA - Internet Assigned Numbers Authority</string>
+    <string name="placeholder">Host</string>
+    <string name="activity_button">Trace</string>
+    <string name="string_test">test</string>
+    <string name="error">Error</string>
 </resources>

@@ -38,7 +38,7 @@ class PortScanConfiguration : Fragment() {
         val tiPorts: TextInputEditText = view.findViewById<TextInputEditText>(R.id.tiPorts)
 
         scanButton.setOnClickListener {
-            mActivity.ReplacePortScan(tiIpAddress.text.toString(), tiPorts.text.toString())
+            mActivity.replacePortScan(tiIpAddress.text.toString(), tiPorts.text.toString())
         }
     }
 }
