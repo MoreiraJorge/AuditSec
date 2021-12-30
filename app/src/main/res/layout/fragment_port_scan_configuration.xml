@@ -7,50 +7,85 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/TilIpAddress"
-        android:layout_width="0dp"
+    <EditText
+        android:id="@+id/etIpAddress"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:ems="16"
+        android:hint="@string/placeholder"
+        android:inputType="text"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@android:color/white"
+        android:textCursorDrawable="@null"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tiIpAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/ip_address_hint"
-            tools:ignore="TextContrastCheck" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/TiPorts"
-        android:layout_width="0dp"
+    <EditText
+        android:id="@+id/etPorts"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:ems="16"
+        android:hint="@string/port_hint"
+        android:inputType="text"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TilIpAddress">
+        app:layout_constraintTop_toBottomOf="@+id/etIpAddress"
+        android:backgroundTint="@android:color/white"
+        android:textCursorDrawable="@null"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/tiPorts"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/port_hint"
-            tools:ignore="TextContrastCheck" />
+    <EditText
+        android:id="@+id/etTimeout"
+        android:inputType="number"
+        android:digits="0123456789"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:ems="16"
+        android:hint="@string/timeout_hint"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etPorts"
+        android:backgroundTint="@android:color/white"
+        android:textCursorDrawable="@null"/>
 
-    </com.google.android.material.textfield.TextInputLayout>
-
+    <EditText
+        android:id="@+id/etNumThreads"
+        android:inputType="number"
+        android:digits="0123456789"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:ems="16"
+        android:hint="@string/num_threads_hint"
+        android:minHeight="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTimeout"
+        android:backgroundTint="@android:color/white"
+        android:textCursorDrawable="@null"/>
     <Button
         android:id="@+id/btScan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_weight="1"
         android:text="@string/Scan"
+        android:layout_marginTop="60dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TiPorts" />
+        app:layout_constraintTop_toBottomOf="@+id/etNumThreads"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

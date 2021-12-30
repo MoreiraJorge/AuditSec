@@ -54,11 +54,11 @@ class TraceListAdapter(private val context: Context,
 
         val currentTrace: TracerouteContainer = getItem(position)
 
-        if (position % 2 == 1) {
-            rowView?.setBackgroundResource(R.drawable.table_odd_lines)
-        } else {
-            rowView?.setBackgroundResource(R.drawable.table_pair_lines)
-        }
+//        if (position % 2 == 1) {
+//            rowView?.setBackgroundResource(R.drawable.table_odd_lines)
+//        } else {
+//            rowView?.setBackgroundResource(R.drawable.table_pair_lines)
+//        }
         if (currentTrace.isSuccessful) {
             holder.imageViewStatusPing!!.setImageResource(R.drawable.check)
         } else {

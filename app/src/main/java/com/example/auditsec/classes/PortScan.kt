@@ -1,5 +1,7 @@
 package com.example.auditsec.classes
 
+import android.R
+import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.example.auditsec.adapters.ScannerRecyclerAdapter
 import java.net.*
@@ -9,6 +11,7 @@ class PortScan(private val _host: String,
                private val adapter: ScannerRecyclerAdapter,
                private val portsList: ArrayList<Int>,
                private val _activity: FragmentActivity?,
+               private val timeout: Int
 ): Thread()
 {
     private val host: String = _host;
@@ -20,7 +23,7 @@ class PortScan(private val _host: String,
                 return
             }
             val port = getNextPort()
-            println("Thread # " + Thread.currentThread().id + " is doing port " + port);
+            println("Thread # " + currentThread().id + " is doing port " + port);
             val portStatus = scanPort(port);
             addPortToList(portStatus)
         }
@@ -43,7 +46,7 @@ class PortScan(private val _host: String,
     private fun scanPort(portNumber: Int): ScannerItem {
         return try {
             val sock = Socket()
-            sock.connect(InetSocketAddress(host, portNumber), 3000)
+            sock.connect(InetSocketAddress(host, portNumber), timeout)
             if (sock.isConnected) {
                 sock.close()
                 ScannerItem("Opened", portNumber)

@@ -46,11 +46,13 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
 
-    fun replacePortScan(tiIpAddress: String, tiPorts: String) {
+    fun replacePortScan(address: String, ports: ArrayList<Int>, timeout: Int, numThreads: Int) {
             val newFragment = PortScan()
             val bundle = Bundle()
-            bundle.putString("tiIpAddress", tiIpAddress)
-            bundle.putString("tiPorts", tiPorts)
+            bundle.putString("address", address)
+            bundle.putIntegerArrayList("ports", ports)
+            bundle.putInt("timeout", timeout)
+            bundle.putInt("numThreads", numThreads)
             newFragment.arguments = bundle
             supportFragmentManager.beginTransaction()
                 .replace(R.id.flFragment, newFragment)

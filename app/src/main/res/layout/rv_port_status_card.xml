@@ -34,28 +34,6 @@
                 android:layout_height="wrap_content"
                 android:layoutDirection="rtl"
                 >
-
-                <!-- Chips can be declared here, or added dynamically. -->
-               <!-- <com.google.android.material.chip.Chip
-                    android:id="@+id/chip"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="TCP"/>
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="UDP"/>
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SCTP"/>
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="DCCP"/>-->
             </com.google.android.material.chip.ChipGroup>
         </LinearLayout>
         <TextView
