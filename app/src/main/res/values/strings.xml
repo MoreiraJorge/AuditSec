@@ -5,6 +5,8 @@
     <string name="port_scan">Port Scan</string>
     <string name="ip_address_hint">Enter the dns or ip address</string>
     <string name="port_hint">Ports (ex: 80, 443, 500-1000)</string>
+    <string name="timeout_hint">Timeout in seconds (Max 60 sec)</string>
+    <string name="num_threads_hint">Number of threads (Max 16)</string>
     <string name="Scan">Scan</string>
     <string name="feature">Feature</string>
     <string name="scanner_button">Scanner</string>

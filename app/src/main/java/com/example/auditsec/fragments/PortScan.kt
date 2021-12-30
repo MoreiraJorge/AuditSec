@@ -21,9 +21,10 @@ import java.util.concurrent.Executors
 class PortScan : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ScannerRecyclerAdapter
-    private lateinit var tiIpAddress: String
-    private lateinit var tiPorts: String
-    private val NUM_THREADS = 10
+    private lateinit var address: String
+    private lateinit var ports: ArrayList<Int>
+    private var timeout: Int = 1
+    private var numThreads: Int = 4
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,8 +34,10 @@ class PortScan : Fragment() {
         setHasOptionsMenu(true);
         val bundle = arguments
         if (bundle != null) {
-            tiIpAddress = bundle.getString("tiIpAddress") as String
-            tiPorts = bundle.getString("tiPorts") as String
+            address = bundle.getString("address") as String
+            ports = bundle.getIntegerArrayList("ports") as ArrayList<Int>
+            timeout = bundle.getInt("timeout") as Int
+            numThreads = bundle.getInt("numThreads") as Int
         }
         return inflater.inflate(R.layout.fragment_port_scan, container, false)
     }
@@ -71,7 +74,6 @@ class PortScan : Fragment() {
         if (id == R.id.action_sort) {
             sortDialog()
         } else if(id == R.id.help){
-            println("Clicked!")
             helpDialog()
         }
 
@@ -91,10 +93,9 @@ class PortScan : Fragment() {
     }
 
     private fun scan() {
-        val ports = PortUtils.retrievePorts(tiPorts)
         val executor = Executors.newFixedThreadPool(16)
-        val worker = PortScan(tiIpAddress, adapter, ports, activity)
-        for (i in 1..NUM_THREADS) {
+        val worker = PortScan(address, adapter, ports, activity, timeout)
+        for (i in 1..numThreads) {
             executor.execute(worker)
         }
     }
