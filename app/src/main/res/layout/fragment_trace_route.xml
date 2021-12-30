@@ -12,7 +12,9 @@
         android:layout_centerHorizontal="true"
         android:hint="@string/placeholder"
         android:inputType="text"
-        android:ems="10" />
+        android:ems="10"
+        android:backgroundTint="@android:color/white"
+        android:textCursorDrawable="@null"/>
 
     <Button
         android:id="@+id/buttonLaunch"

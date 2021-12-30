@@ -20,7 +20,9 @@
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@android:color/white"
+        android:textCursorDrawable="@null"/>
 
     <EditText
         android:id="@+id/etPorts"
@@ -35,7 +37,9 @@
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etIpAddress" />
+        app:layout_constraintTop_toBottomOf="@+id/etIpAddress"
+        android:backgroundTint="@android:color/white"
+        android:textCursorDrawable="@null"/>
 
     <EditText
         android:id="@+id/etTimeout"
@@ -51,7 +55,9 @@
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPorts" />
+        app:layout_constraintTop_toBottomOf="@+id/etPorts"
+        android:backgroundTint="@android:color/white"
+        android:textCursorDrawable="@null"/>
 
     <EditText
         android:id="@+id/etNumThreads"
@@ -67,7 +73,9 @@
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etTimeout" />
+        app:layout_constraintTop_toBottomOf="@+id/etTimeout"
+        android:backgroundTint="@android:color/white"
+        android:textCursorDrawable="@null"/>
     <Button
         android:id="@+id/btScan"
         android:layout_width="wrap_content"

@@ -1,31 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="horizontal"
-    android:paddingBottom="10dp"
-    android:paddingLeft="15dip"
-    android:paddingRight="15dp"
-    android:paddingTop="10dp" >
+    android:id="@+id/mcvPortStatus"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
 
-    <TextView
-        android:id="@+id/textViewNumber"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="0.2"
-        android:gravity="left"
-        android:text="@string/string_test"
-        android:textColor="@color/red" />
+        android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/imageViewStatusPing"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="0.2"
-        android:src="@drawable/cross" />
+        <TextView
+            android:id="@+id/textViewNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.2"
+            android:text="@string/string_test" />
 
-    <TextView
+        <TextView
         android:id="@+id/textViewIp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -33,17 +26,23 @@
         android:layout_weight="1"
         android:gravity="left"
         android:paddingLeft="12dp"
-        android:text="@string/string_test"
-        android:textColor="@color/green" />
+        android:text="@string/string_test"/>
 
-    <TextView
-        android:id="@+id/textViewTime"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="0.4"
-        android:gravity="right"
-        android:text="@string/string_test"
-        android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/textViewTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.4"
+            android:gravity="right"
+            android:text="@string/string_test"/>
 
+        <ImageView
+            android:id="@+id/imageViewStatusPing"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.2"
+            android:src="@drawable/cross" />
+    </LinearLayout>
 </LinearLayout>
